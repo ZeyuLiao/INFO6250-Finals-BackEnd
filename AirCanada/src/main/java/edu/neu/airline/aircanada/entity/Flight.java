@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -28,7 +29,7 @@ public class Flight {
     private String destination;
 
     @Column(name="departure_time")
-    private Date departure_time;
+    private LocalDateTime departure_time;
 
     @Column(name="duration")
     private String duration;

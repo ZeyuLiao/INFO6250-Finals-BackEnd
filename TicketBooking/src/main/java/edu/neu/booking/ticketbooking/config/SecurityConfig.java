@@ -64,25 +64,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-        http.cors().and();
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/user/signup").permitAll();
-        http.authorizeRequests().antMatchers("/user/getUsers").permitAll();
-        http.authorizeRequests().antMatchers("/login").permitAll();
-
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/ADMIN/**").hasAuthority("ADMIN");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/USER").hasAuthority("USER");
-        http.authorizeRequests().anyRequest().authenticated();
-
-        http.formLogin().disable();
-        http.headers().frameOptions().sameOrigin();
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.httpBasic();
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .and()
+                .cors()
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/getUsers").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/flights").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().disable()
+                .headers().frameOptions().sameOrigin()
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .httpBasic()
+                .and()
+                .addFilterAfter(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

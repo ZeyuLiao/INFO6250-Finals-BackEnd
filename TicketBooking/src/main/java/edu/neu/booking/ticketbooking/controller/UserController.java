@@ -29,8 +29,8 @@ public class UserController {
 	}
 
 	@GetMapping("/profile")
-	public 	ResponseEntity<LoginUser> getUserByUserName(@RequestParam String userName) {
-		return new ResponseEntity<>(userService.getUserById(userName), HttpStatus.OK);
+	public 	ResponseEntity<LoginUser> getUserByUserName(@RequestParam String username) {
+		return new ResponseEntity<>(userService.getUserById(username), HttpStatus.OK);
 	}
 
 	@PostMapping("/signup")

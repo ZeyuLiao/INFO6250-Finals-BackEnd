@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -13,5 +14,5 @@ import java.time.LocalDateTime;
 public class SearchVo {
     private String departure;
     private String destination;
-    private LocalDate departure_time;
+    private Date departure_time;
 }

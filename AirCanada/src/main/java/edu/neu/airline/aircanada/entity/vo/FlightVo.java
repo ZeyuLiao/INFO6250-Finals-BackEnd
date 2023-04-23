@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -19,12 +20,10 @@ public class FlightVo {
 
     private Date departure_time;
 
-    private String duration;
+    private BigDecimal duration;
 
-    private int price;
+    private BigDecimal  price;
 
     private String proxy_flight_number;
-
-
 
 }

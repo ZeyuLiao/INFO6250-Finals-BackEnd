@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
 				.orElseThrow(() -> new RuntimeException("User not found: " + username));
 
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_ADMIN");
-		System.out.println("ROle is being set");
+		System.out.println("Role is being set");
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 				Arrays.asList(authority));
 	}

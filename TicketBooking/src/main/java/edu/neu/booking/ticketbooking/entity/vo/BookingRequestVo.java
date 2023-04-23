@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Flights {
+@AllArgsConstructor
+public class BookingRequestVo {
+    private String username;
     private String flight_number;
 
     private String departure;
@@ -19,9 +21,9 @@ public class Flights {
 
     private LocalDateTime departure_time;
 
-    private BigDecimal  duration;
+    private BigDecimal duration;
 
-    private BigDecimal price;
+    private BigDecimal  price;
 
     private String proxy_flight_number;
 }

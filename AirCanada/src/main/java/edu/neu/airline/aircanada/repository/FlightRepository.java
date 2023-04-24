@@ -13,7 +13,7 @@ public interface FlightRepository extends JpaRepository<Flight,String> {
     @Query("SELECT f FROM Flight f WHERE f.departure = ?1 AND f.destination = ?2 AND FUNCTION('date', f.departure_time) = ?3")
     List<Flight> searchFlights(String departure, String destination, Date date);
 
-    @Query("SELECT f FROM Flight f WHERE f.available_seats > f.passengers AND f NOT IN (SELECT p.flight_number FROM Proxy p WHERE p.proxy_company = ?1)")
+    @Query("SELECT f FROM Flight f WHERE f.available_seats > f.passengers AND f.proxy_flight_number IS NULL AND f.flight_number NOT IN (SELECT p.flight_number FROM Proxy p WHERE p.proxy_company = ?1)")
     List<Flight> findFlightsByProxyCompany(String proxy_company);
 
     @Query("SELECT f FROM Flight f WHERE f.proxy_flight_number IS NULL")

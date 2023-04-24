@@ -39,8 +39,13 @@ public class FlightController {
 
     @PostMapping ("/tickets")
     public ResponseEntity<?> buyTickets(@RequestBody BookingRequestVo bookingRequestVo){
+        String ticket_number;
+        if(bookingRequestVo.getProxy_flight_number()!=null){
+            ticket_number = flightService.buyTicket(bookingRequestVo.getProxy_flight_number(),bookingRequestVo.getUsername());
+        }
+        else  ticket_number = flightService.buyTicket(bookingRequestVo.getFlight_number(),bookingRequestVo.getUsername());
 
-        String ticket_number = flightService.buyTicket(bookingRequestVo.getFlight_number(),bookingRequestVo.getUsername());
+
         if(ticket_number.equals("Booking Failed")) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         LoginUser loginUser =  userService.getUserById(bookingRequestVo.getUsername());
         Order order = new Order(UUID.randomUUID().toString().replace("-", "").substring(0, 16),

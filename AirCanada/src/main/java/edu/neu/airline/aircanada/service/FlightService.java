@@ -49,7 +49,7 @@ public class FlightService {
     public void add(Flight flight){
         flightRepository.save(flight);
         if(flight.getProxy_flight_number()!=null){
-            String operatedAirline = flight.getProxy_flight_number().substring(0,3);
+            String operatedAirline = flight.getProxy_flight_number().substring(0,2);
 
             Map<String, String> airlineUrlMap = new HashMap<>();
             airlineUrlMap.put("AC", "http://localhost:8091/addProxy?flight_number={flight_number}&company_name={company_name}");
@@ -95,7 +95,7 @@ public class FlightService {
         Passenger passenger = new Passenger();
         passenger.setTicket_number(ticket_number);
         passenger.setUsername(username);
-        passenger.setTicket_number(flightNumber);
+        passenger.setFlight_number(flightNumber);
         passengerRepository.save(passenger);
 
         return ticket_number;

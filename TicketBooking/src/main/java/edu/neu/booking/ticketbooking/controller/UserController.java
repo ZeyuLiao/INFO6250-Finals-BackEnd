@@ -7,6 +7,7 @@ import edu.neu.booking.ticketbooking.controller.model.UserModel;
 import edu.neu.booking.ticketbooking.entity.User;
 import edu.neu.booking.ticketbooking.entity.vo.LoginUser;
 import edu.neu.booking.ticketbooking.service.UserService;
+import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,15 @@ public class UserController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> createUser(@RequestBody UserModel userModel) {
+	public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
+
+		String message = "SignUp Successfully";
+
+		if(userService.getUserById(userModel.getUsername())!=null){
+			 message = "Duplicate Username";
+		}
 		User users = userService.createUser(userModel);
-		return new ResponseEntity<>(users, HttpStatus.OK);
+		return new ResponseEntity<>(message, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{username}")

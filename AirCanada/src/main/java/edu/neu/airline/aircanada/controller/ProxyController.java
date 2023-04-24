@@ -16,7 +16,7 @@ public class ProxyController {
     @Autowired
     ProxyService proxyService;
 
-    @GetMapping
+    @GetMapping("/addProxy")
     public ResponseEntity<?> addProxy(@RequestParam String flight_number, @RequestParam String company_name){
         Proxy proxy = new Proxy();
         proxy.setProxy_company(company_name);

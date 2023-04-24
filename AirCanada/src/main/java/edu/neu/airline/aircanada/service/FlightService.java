@@ -1,12 +1,16 @@
 package edu.neu.airline.aircanada.service;
 
+
+
 import edu.neu.airline.aircanada.entity.Flight;
 import edu.neu.airline.aircanada.entity.Passenger;
 import edu.neu.airline.aircanada.entity.vo.SearchVo;
 import edu.neu.airline.aircanada.repository.FlightRepository;
 import edu.neu.airline.aircanada.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -14,13 +18,55 @@ import java.util.*;
 public class FlightService {
 
     @Autowired
-    FlightRepository flightRepository;
+    private FlightRepository flightRepository;
 
     @Autowired
-    PassengerRepository passengerRepository;
+    private PassengerRepository passengerRepository;
+
+    @Autowired
+    private ProxyService proxyService;
 
     public List<Flight> getFlightList() {
         return flightRepository.findAll();
+    }
+
+    public List<Flight> getAvailableToProxy(String proxy_company){
+        return flightRepository.findFlightsByProxyCompany(proxy_company);
+    }
+
+    public List<Flight> getOwnedFlights(){
+        return flightRepository.findOwnedFlights();
+    }
+
+    public List<Flight> getProxyFlights(){
+        return flightRepository.findProxyFlights();
+    }
+
+    public void delete(String flight_num){
+        flightRepository.deleteById(flight_num);
+    }
+
+    public void add(Flight flight){
+        flightRepository.save(flight);
+        if(flight.getProxy_flight_number()!=null){
+            String operatedAirline = flight.getProxy_flight_number().substring(0,3);
+
+            Map<String, String> airlineUrlMap = new HashMap<>();
+            airlineUrlMap.put("AC", "http://localhost:8091/addProxy?flight_number={flight_number}&company_name={company_name}");
+            airlineUrlMap.put("CA", "http://localhost:8092/addProxy?flight_number={flight_number}&company_name={company_name}");
+            airlineUrlMap.put("EK", "http://localhost:8093/addProxy?flight_number={flight_number}&company_name={company_name}");
+            airlineUrlMap.put("LF", "http://localhost:8094/addProxy?flight_number={flight_number}&company_name={company_name}");
+            airlineUrlMap.put("DL", "http://localhost:8095/addProxy?flight_number={flight_number}&company_name={company_name}");
+
+            String URL = airlineUrlMap.get(operatedAirline);
+
+            RestTemplate restTemplate = new RestTemplate();
+            Map<String, String> params = new HashMap<>();
+            params.put("flight_number", flight.getProxy_flight_number());
+            params.put("company_name", "AC");
+
+            String response = restTemplate.getForObject(URL, String.class, params);
+        }
     }
 
     public List<Flight> getFlightList(SearchVo searchVo){
@@ -38,18 +84,30 @@ public class FlightService {
         }
         flight.setAvailable_seats(flight.getAvailable_seats() - 1);
         flight.setPassengers(flight.getPassengers() + 1);
+
+        // while someone book a flight and then the passengers more than available seats send requests
+        if(flight.getAvailable_seats()< flight.getPassengers()){
+            proxyService.requestRemoveProxy(flight.getFlight_number());
+        }
+
         flightRepository.save(flight);
         String ticket_number = generateTicketNumber();
         Passenger passenger = new Passenger();
-        passenger.setTicketNumber(ticket_number);
+        passenger.setTicket_number(ticket_number);
         passenger.setUsername(username);
-        passenger.setFlightNumber(flightNumber);
+        passenger.setTicket_number(flightNumber);
         passengerRepository.save(passenger);
 
         return ticket_number;
     }
 
-    public static String generateTicketNumber() {
+    public void deleteProxyFlight(String proxy_flight_number){
+        flightRepository.deleteByProxyFlightNumber(proxy_flight_number);
+    }
+
+
+
+    public String generateTicketNumber() {
         Random random = new Random();
 
         long timestamp = System.currentTimeMillis();
@@ -62,7 +120,5 @@ public class FlightService {
         }
         return "AC"+ sb;
     }
-
-
 
 }

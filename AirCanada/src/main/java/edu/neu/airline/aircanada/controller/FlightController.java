@@ -1,25 +1,19 @@
 package edu.neu.airline.aircanada.controller;
 
-
 import edu.neu.airline.aircanada.entity.Flight;
-import edu.neu.airline.aircanada.entity.Passenger;
 import edu.neu.airline.aircanada.entity.vo.SearchVo;
-import edu.neu.airline.aircanada.repository.FlightRepository;
 import edu.neu.airline.aircanada.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/outsideApi")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FlightController {
-
-    @Autowired
-    FlightRepository flightRepository;
 
     @Autowired
     FlightService flightService;
@@ -28,6 +22,44 @@ public class FlightController {
     public  ResponseEntity<?> getAllFlights(){
         return new ResponseEntity<>(flightService.getFlightList(),HttpStatus.OK);
     }
+
+    @GetMapping("/availableToProxy")
+    public ResponseEntity<?> getAvailableToProxy(@RequestParam String proxy_company){
+        return new ResponseEntity<>(flightService.getAvailableToProxy(proxy_company),HttpStatus.OK);
+    }
+
+    @GetMapping("/ourFlights")
+    public ResponseEntity<?> getOwnedFlights(){
+        return new ResponseEntity<>(flightService.getOwnedFlights(),HttpStatus.OK);
+    }
+
+    @GetMapping("/theirFlights")
+    public ResponseEntity<?> getProxyFlights(){
+        return new ResponseEntity<>(flightService.getProxyFlights(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam String flight_number){
+
+        flightService.delete(flight_number);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/addFlight")
+    public ResponseEntity<?> deleteProxyFlight(@RequestBody Flight flight){
+
+        flightService.add(flight);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteProxy")
+    public ResponseEntity<?> deleteProxyFlight(@RequestParam String proxy_flight_number){
+
+        flightService.deleteProxyFlight(proxy_flight_number);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @PostMapping("/flights")
     public ResponseEntity<List<Flight>> getFlights(@RequestBody SearchVo searchVo){

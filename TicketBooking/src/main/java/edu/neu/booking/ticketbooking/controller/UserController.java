@@ -37,13 +37,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
 
-		String message = "SignUp Successfully";
-
-		if(userService.getUserById(userModel.getUsername())!=null){
-			 message = "Duplicate Username";
-		}
-		User users = userService.createUser(userModel);
-		return new ResponseEntity<>(message, HttpStatus.OK);
+		return new ResponseEntity<>(userService.createUser(userModel), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{username}")

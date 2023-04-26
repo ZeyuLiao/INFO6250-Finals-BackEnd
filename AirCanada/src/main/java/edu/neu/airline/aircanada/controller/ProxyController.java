@@ -5,10 +5,7 @@ import edu.neu.airline.aircanada.service.ProxyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -22,6 +19,12 @@ public class ProxyController {
         proxy.setProxy_company(company_name);
         proxy.setFlight_number(flight_number);
         proxyService.addProxy(proxy);
+        return new ResponseEntity<>( HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removeProxy")
+    public ResponseEntity<?> removeProxy(@RequestParam String flight_number, @RequestParam String company_name){
+        proxyService.removeProxy(flight_number,company_name);
         return new ResponseEntity<>( HttpStatus.OK);
     }
 }

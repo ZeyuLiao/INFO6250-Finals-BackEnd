@@ -9,6 +9,7 @@ import edu.neu.airline.aircanada.repository.FlightRepository;
 import edu.neu.airline.aircanada.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,7 +47,12 @@ public class FlightService {
         flightRepository.deleteById(flight_num);
     }
 
-    public void add(Flight flight){
+    public HttpStatus add(Flight flight){
+        Optional<Flight> isExist = flightRepository.findById(flight.getFlight_number());
+        if(isExist.isPresent()) {
+            return HttpStatus.BAD_REQUEST;
+        }
+
         flightRepository.save(flight);
         if(flight.getProxy_flight_number()!=null){
             String operatedAirline = flight.getProxy_flight_number().substring(0,2);
@@ -67,6 +73,7 @@ public class FlightService {
 
             String response = restTemplate.getForObject(URL, String.class, params);
         }
+        return HttpStatus.OK;
     }
 
     public List<Flight> getFlightList(SearchVo searchVo){

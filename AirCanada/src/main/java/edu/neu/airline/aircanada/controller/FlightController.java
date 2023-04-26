@@ -48,11 +48,10 @@ public class FlightController {
     @PostMapping("/addFlight")
     public ResponseEntity<?> deleteProxyFlight(@RequestBody Flight flight){
 
-        flightService.add(flight);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(flightService.add(flight));
     }
 
+    // delete flight by proxy flight number
     @DeleteMapping("/deleteProxy")
     public ResponseEntity<?> deleteProxyFlight(@RequestParam String proxy_flight_number){
 

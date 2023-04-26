@@ -53,9 +53,18 @@ public class UserService implements UserDetailsService {
 		return  loginUser;
 	}
 	
-	public User createUser(UserModel userModel) {
-		User user = userRepository.save(new User(userModel.getName(),userModel.getEmail(), userModel.getPhone(),userModel.getUsername(), new BCryptPasswordEncoder().encode(userModel.getPassword())));
-		return user;
+	public String createUser(UserModel userModel) {
+		String message = "Sign Up Successfully";
+
+		Optional<User> isExist =  userRepository.findById(userModel.getUsername());
+
+		if(isExist.isPresent()) {
+			message = "Duplicate Username";
+			return message;
+		}
+
+		userRepository.save(new User(userModel.getName(),userModel.getEmail(), userModel.getPhone(),userModel.getUsername(), new BCryptPasswordEncoder().encode(userModel.getPassword())));
+		return message;
 	}
 	
 	public boolean deleteUser(String username) {

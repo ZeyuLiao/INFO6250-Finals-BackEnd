@@ -23,20 +23,23 @@ public class ProxyService {
         proxyRepository.save(proxy);
     }
 
+    public void removeProxy(String flight_number,String airline){
+        proxyRepository.deleteProxyByFlightAndCompany(flight_number,airline);
+    }
 
     // when proxy is not available send delete request to target airline company
     public void requestRemoveProxy(String flight_number){
 
         Map<String,String> mp = new HashMap<>();
-        mp.put("AC","http://localhost:8091/removeProxy?proxy_flight_number={proxy_flight_number}");
-        mp.put("CA","http://localhost:8092/removeProxy?proxy_flight_number={proxy_flight_number}");
-        mp.put("EK","http://localhost:8093/removeProxy?proxy_flight_number={proxy_flight_number}");
-        mp.put("LH","http://localhost:8094/removeProxy?proxy_flight_number={proxy_flight_number}");
-        mp.put("DL","http://localhost:8095/removeProxy?proxy_flight_number={proxy_flight_number}");
+        mp.put("AC","http://localhost:8091/outsideApi/deleteProxy?proxy_flight_number={proxy_flight_number}");
+        mp.put("CA","http://localhost:8092/outsideApi/deleteProxy?proxy_flight_number={proxy_flight_number}");
+        mp.put("EK","http://localhost:8093/outsideApi/deleteProxy?proxy_flight_number={proxy_flight_number}");
+        mp.put("LH","http://localhost:8094/outsideApi/deleteProxy?proxy_flight_number={proxy_flight_number}");
+        mp.put("DL","http://localhost:8095/outsideApi/deleteProxy?proxy_flight_number={proxy_flight_number}");
         for(String airline: proxyRepository.findDistinctProxyCompaniesByFlightNumber(flight_number)){
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.delete(mp.get(airline), flight_number);
-            proxyRepository.deleteProxyByCompany(airline);
+            proxyRepository.deleteProxyByFlightAndCompany(flight_number,airline);
         }
     }
 }

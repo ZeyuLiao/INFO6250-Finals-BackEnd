@@ -45,6 +45,7 @@ public class FlightService {
     }
 
     public void delete(String flight_num){
+        proxyService.requestRemoveProxy(flight_num);
         flightRepository.deleteById(flight_num);
     }
 

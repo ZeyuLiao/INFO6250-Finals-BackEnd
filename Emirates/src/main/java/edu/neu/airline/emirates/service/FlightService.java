@@ -44,6 +44,7 @@ public class FlightService {
     }
 
     public void delete(String flight_num){
+        proxyService.requestRemoveProxy(flight_num);
         flightRepository.deleteById(flight_num);
     }
 
@@ -71,7 +72,7 @@ public class FlightService {
             params.put("flight_number", flight.getProxy_flight_number());
             params.put("company_name", "EK");
 
-            String response = restTemplate.getForObject(URL, String.class, params);
+            restTemplate.getForObject(URL, String.class, params);
         }
         return HttpStatus.OK;
     }

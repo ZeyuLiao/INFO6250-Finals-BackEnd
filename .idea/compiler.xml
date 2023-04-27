@@ -9,15 +9,25 @@
         <outputRelativeToContentRoot value="true" />
         <module name="AirCanada" />
         <module name="AirChina" />
+        <module name="Emirates" />
+        <module name="Lufthansa" />
+        <module name="Delta" />
         <module name="TicketBooking" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Lufthansa.main" target="17" />
+      <module name="Lufthansa.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AirCanada" options="-parameters" />
       <module name="AirChina" options="-parameters" />
+      <module name="Delta" options="-parameters" />
+      <module name="Emirates" options="-parameters" />
       <module name="FinalProject" options="" />
+      <module name="Lufthansa" options="-parameters" />
       <module name="TicketBooking" options="-parameters" />
     </option>
   </component>

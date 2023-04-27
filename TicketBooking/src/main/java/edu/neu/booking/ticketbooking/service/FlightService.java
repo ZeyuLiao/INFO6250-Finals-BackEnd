@@ -41,6 +41,21 @@ public class FlightService {
                 });
 
         responseEntity.getBody().forEach(flights::add);
+        responseEntity = restTemplate.exchange(Constants.EK, HttpMethod.POST, request,
+                new ParameterizedTypeReference<>() {
+                });
+
+        responseEntity.getBody().forEach(flights::add);
+        responseEntity = restTemplate.exchange(Constants.LH, HttpMethod.POST, request,
+                new ParameterizedTypeReference<>() {
+                });
+
+        responseEntity.getBody().forEach(flights::add);
+        responseEntity = restTemplate.exchange(Constants.DL, HttpMethod.POST, request,
+                new ParameterizedTypeReference<>() {
+                });
+
+        responseEntity.getBody().forEach(flights::add);
 
         flights.sort(Comparator.comparing(Flights::getDeparture_time));
         return flights;
@@ -52,6 +67,12 @@ public class FlightService {
             case "CA": URL = Constants.CAT;
                 break;
             case "AC": URL = Constants.ACT;
+                break;
+            case "EK": URL = Constants.EKT;
+                break;
+            case "LH": URL = Constants.LHT;
+                break;
+            case "DL": URL = Constants.DLT;
                 break;
         }
         Map<String, String> uriVariables = new HashMap<>();

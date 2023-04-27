@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/Lufthansa" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -8,6 +11,9 @@
         <option value="$PROJECT_DIR$/TicketBooking/pom.xml" />
         <option value="$PROJECT_DIR$/AirCanada/pom.xml" />
         <option value="$PROJECT_DIR$/AirChina/pom.xml" />
+        <option value="$PROJECT_DIR$/Emirates/pom.xml" />
+        <option value="$PROJECT_DIR$/Delta/pom.xml" />
+        <option value="$PROJECT_DIR$/Lufthansa/pom.xml" />
       </list>
     </option>
   </component>

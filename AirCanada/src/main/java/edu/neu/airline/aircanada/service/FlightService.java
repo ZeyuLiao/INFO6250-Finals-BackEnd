@@ -62,7 +62,7 @@ public class FlightService {
             airlineUrlMap.put("AC", "http://localhost:8091/addProxy?flight_number={flight_number}&company_name={company_name}");
             airlineUrlMap.put("CA", "http://localhost:8092/addProxy?flight_number={flight_number}&company_name={company_name}");
             airlineUrlMap.put("EK", "http://localhost:8093/addProxy?flight_number={flight_number}&company_name={company_name}");
-            airlineUrlMap.put("LF", "http://localhost:8094/addProxy?flight_number={flight_number}&company_name={company_name}");
+            airlineUrlMap.put("LH", "http://localhost:8094/addProxy?flight_number={flight_number}&company_name={company_name}");
             airlineUrlMap.put("DL", "http://localhost:8095/addProxy?flight_number={flight_number}&company_name={company_name}");
 
             String URL = airlineUrlMap.get(operatedAirline);
@@ -117,7 +117,7 @@ public class FlightService {
         airlineUrlMap.put("AC", "http://localhost:8091//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
         airlineUrlMap.put("CA", "http://localhost:8092//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
         airlineUrlMap.put("EK", "http://localhost:8093//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
-        airlineUrlMap.put("LF", "http://localhost:8094//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        airlineUrlMap.put("LH", "http://localhost:8094//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
         airlineUrlMap.put("DL", "http://localhost:8095//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(airlineUrlMap.get(proxy_flight_number.substring(0,2)));

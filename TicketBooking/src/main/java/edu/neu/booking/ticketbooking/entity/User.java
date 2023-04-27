@@ -1,8 +1,11 @@
 package edu.neu.booking.ticketbooking.entity;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 public class User {
 

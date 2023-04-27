@@ -83,9 +83,7 @@ public class UserService implements UserDetailsService {
 		if(user.isPresent()) {
 			User _user = user.get();
 			System.out.println(_user);
-
 			_user.setEmail(userModel.getEmail());
-			_user.setPassword(userModel.getPassword());
 			_user = userRepository.save(_user);
 			return _user;
 		}

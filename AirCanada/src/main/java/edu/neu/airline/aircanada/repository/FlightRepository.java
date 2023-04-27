@@ -3,6 +3,7 @@ package edu.neu.airline.aircanada.repository;
 
 import edu.neu.airline.aircanada.entity.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -22,7 +23,8 @@ public interface FlightRepository extends JpaRepository<Flight,String> {
     @Query("SELECT f FROM Flight f WHERE f.proxy_flight_number IS NOT NULL")
     List<Flight> findProxyFlights();
 
+    @Modifying
     @Query("DELETE FROM Flight f WHERE f.proxy_flight_number = :proxy_flight_number")
-    void deleteByProxyFlightNumber(@Param("proxy_flight_number") String proxy_flight_number);
+    int  deleteByProxyFlightNumber(@Param("proxy_flight_number") String proxy_flight_number);
 
 }

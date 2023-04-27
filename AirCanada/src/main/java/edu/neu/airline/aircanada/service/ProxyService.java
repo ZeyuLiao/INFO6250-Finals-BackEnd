@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -23,10 +24,12 @@ public class ProxyService {
         proxyRepository.save(proxy);
     }
 
+    @Transactional
     public void removeProxy(String flight_number,String airline){
         proxyRepository.deleteProxyByFlightAndCompany(flight_number,airline);
     }
 
+    @Transactional
     // when proxy is not available send delete request to target airline company
     public void requestRemoveProxy(String flight_number){
 

@@ -36,11 +36,11 @@ public class FlightService {
 
         responseEntity.getBody().forEach(flights::add);
         //China Airlines
-//        responseEntity = restTemplate.exchange(Constants.CA, HttpMethod.POST, request,
-//                new ParameterizedTypeReference<>() {
-//                });
-//
-//        responseEntity.getBody().forEach(flights::add);
+        responseEntity = restTemplate.exchange(Constants.CA, HttpMethod.POST, request,
+                new ParameterizedTypeReference<>() {
+                });
+
+        responseEntity.getBody().forEach(flights::add);
 
         flights.sort(Comparator.comparing(Flights::getDeparture_time));
         return flights;
@@ -73,14 +73,6 @@ public class FlightService {
 
         String responseBody = response.getBody();
         return responseBody;
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            JsonNode root = mapper.readTree(response.getBody());
-//            String ticketNumber = root.get("ticket_number").asText();
-//            return ticketNumber;
-//        } catch (IOException e) {
-//            return "Booking Failed";
-//        }
     }
 
 }

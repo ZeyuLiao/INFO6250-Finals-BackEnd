@@ -46,7 +46,7 @@ public class UserController {
 		return new ResponseEntity<>(isDeleted, HttpStatus.OK);
 	}
 	
-	@PutMapping
+	@PutMapping("/updateProfile")
 	public ResponseEntity<User> updateUser(@RequestBody UserModel userModel){
 		User user = userService.updateUser(userModel);
 		return new ResponseEntity<>(user, HttpStatus.OK);

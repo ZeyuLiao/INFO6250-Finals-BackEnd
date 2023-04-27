@@ -46,7 +46,7 @@ public class FlightController {
     }
 
     @PostMapping("/addFlight")
-    public ResponseEntity<?> deleteProxyFlight(@RequestBody Flight flight){
+    public ResponseEntity<?> addFlight(@RequestBody Flight flight){
 
         return new ResponseEntity<>(flightService.add(flight));
     }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -108,8 +109,18 @@ public class FlightService {
         return ticket_number;
     }
 
+    @Transactional
     public void deleteProxyFlight(String proxy_flight_number){
         flightRepository.deleteByProxyFlightNumber(proxy_flight_number);
+
+        Map<String, String> airlineUrlMap = new HashMap<>();
+        airlineUrlMap.put("AC", "http://localhost:8091//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        airlineUrlMap.put("CA", "http://localhost:8092//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        airlineUrlMap.put("EK", "http://localhost:8093//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        airlineUrlMap.put("LF", "http://localhost:8094//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        airlineUrlMap.put("DL", "http://localhost:8095//removeProxy?flight_number="+proxy_flight_number+"&company_name=AC");
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(airlineUrlMap.get(proxy_flight_number.substring(0,2)));
     }
 
 
